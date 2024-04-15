@@ -2,13 +2,21 @@ import { useState } from "react";
 import "./envelope.css";
 import ExpandIcon from "../../assets/expand-icon";
 
-export default function Envelope() {
+export default function Envelope({
+  body,
+  from,
+  to,
+}: {
+  to: string;
+  from: string;
+  body: string;
+}) {
   const [isExpanded, setExpanded] = useState(false);
   return (
     <div className="envelope">
       <div className="back"></div>
-      <div className={`letter ${isExpanded ?  "expanded": "overflow-hidden" }`}>
-        <div className="text">
+      <div className={`letter ${isExpanded ? "expanded" : "overflow-hidden"}`}>
+        <div className="text text-primary-content ">
           <div
             className="expand w-6"
             onClick={() => {
@@ -17,10 +25,14 @@ export default function Envelope() {
           >
             <ExpandIcon className="stroke-primary" />
           </div>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi
-          dicta fuga fugiat possimus eligendi architecto quia aut. Dolorum nihil
-          tenetur quisquam nemo molestias accusantium, aspernatur facilis
-          placeat cumque dolorem animi!
+          <div className={`m-4 ${isExpanded && "lg:w-1/2"}`}>
+            <p className="text-left"> Dear {to},</p>
+            <p>&nbsp;</p>
+            <p className="text-left">{body}</p>
+            <p>&nbsp;</p>
+            <p className="text-left">With love and admiration,</p>
+            <p className="text-left">{from}</p>
+          </div>
         </div>
       </div>
       <div className="front"></div>

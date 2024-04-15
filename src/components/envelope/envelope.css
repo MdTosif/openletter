@@ -152,10 +152,10 @@
 }
 
 .expanded, .envelope:hover .expanded {
-    width: 96vw;
+    width: 90vw;
     height: 96vh;
     position: fixed;
-    margin: auto;
+    margin: 1rem;
     z-index: 9;
     transform: unset;
     transition: 0s;

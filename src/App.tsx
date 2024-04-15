@@ -1,23 +1,26 @@
 // import { useState } from 'react'
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
+import Header from "./components/header";
+import Letter from "./pages/letters";
 import SignPad from "./components/sign-pad";
-// import Envelope from "./components/envelope/envelope";
+
+const router = createBrowserRouter([
+  {
+    path: "*",
+    element: <Letter />,
+  },
+  {
+    path: "/sign",
+    element: <SignPad />,
+  },
+]);
 
 function App() {
-  // const [count, setCount] = useState(0)
-
   return (
     <>
-      <div className="flex flex-wrap gap-4 justify-center">
-        {/* <Envelope />
-        <Envelope />
-        <Envelope />
-        <Envelope />
-        <Envelope />
-        <Envelope />
-        <Envelope /> */}
-        <SignPad/>
-      </div>
+      <Header />
+      <RouterProvider router={router} />
     </>
   );
 }
