@@ -53,22 +53,6 @@ export default function SignPad() {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function download(dataURL: string, filename: string) {
-    const blob = dataURLToBlob(dataURL);
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.classList.add("hidden");
-    a.href = url;
-    a.download = filename;
-
-    document.body.appendChild(a);
-    a.click();
-
-    window.URL.revokeObjectURL(url);
-  }
-
   // One could simply use Canvas#toBlob method instead, but it's just to show
   // that it can be done using result of SignaturePad#toDataURL.
   function dataURLToBlob(dataURL: string) {
