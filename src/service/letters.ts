@@ -1,12 +1,15 @@
 import useSWR from "swr";
+import getConfig from "../config/config";
+import { getCookie } from "../util/cookie";
 
 const useLetters = (token: string) => {
-  const url = "http://localhost:8080/letter";
+  const host = getConfig().host;
+  const url = `${host}/letter`;
   const fetcher = async (url: string) =>
     (
       await fetch(url, {
         headers: {
-          Authorization: token,
+          Authorization: getCookie("__session"),
         },
       })
     ).json();
@@ -18,7 +21,7 @@ const useLetters = (token: string) => {
       message: string;
       to: string;
     }[]
-  >(url, fetcher);
+  >(url + "?" + token[0], fetcher);
 };
 
 export default useLetters;

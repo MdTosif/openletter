@@ -3,94 +3,86 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
+  useClerk,
 } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
 
-const Header = () => (
-  <header>
-    <div className="navbar bg-base-100">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+const Header = () => {
+  const clerk = useClerk();
+  console.log(clerk.user?.id);
+
+  return (
+    <header>
+      <div className="navbar bg-base-100">
+        <div className="navbar-start">
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
+              {clerk.user?.id && (
+                <>
+                  {" "}
+                  <li>
+                    <Link to="/sign">Signature</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Letters</Link>
+                  </li>
+                  <li>
+                    <Link to="/send">Send Letters</Link>
+                  </li>
+                </>
+              )}
+            </ul>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <li>
-              <Link to="/sign">Signature</Link>
-            </li>
-            {/* <li>
-              <a>Parent</a>
-              <ul className="p-2 ">
+          <a className="btn btn-ghost text-xl">daisyUI</a>
+        </div>
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1">
+            {clerk.user?.id && (
+              <>
+                {" "}
                 <li>
-                  <a>Submenu 1</a>
+                  <Link to="/sign">Signature</Link>
                 </li>
                 <li>
-                  <a>Submenu 2</a>
+                  <Link to="/">Letters</Link>
                 </li>
-              </ul>
-            </li> */}
-            <li>
-              <Link to="/">Letters</Link>
-            </li>
-            <li>
-              <Link to="/send">Send Letters</Link>
-            </li>
+                <li>
+                  <Link to="/send">Send Letters</Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <div className="navbar-end">
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </div>
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          <li>
-            <Link to="/sign">Signature</Link>
-          </li>
-          {/* <li>
-            <details>
-              <summary>Parent</summary>
-              <ul className="p-2 z-10">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </details>
-          </li> */}
-          <li>
-            <Link to="/">Letters</Link>
-          </li>
-          <li>
-            <Link to="/send">Send Letters</Link>
-          </li>
-        </ul>
-      </div>
-      <div className="navbar-end">
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </div>
-    </div>
-  </header>
-);
+    </header>
+  );
+};
 
 export default Header;

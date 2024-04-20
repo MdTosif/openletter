@@ -1,12 +1,8 @@
-import { useClerk } from "@clerk/clerk-react";
 import Envelope from "../components/envelope/envelope";
 import useLetters from "../service/letters";
 
 const Letter = () => {
-  const clerk = useClerk();
-  const { data, isLoading, error } = useLetters(
-    clerk.session?.lastActiveToken?.getRawString() as string,
-  );
+  const { data, isLoading, error } = useLetters("");
 
   if (isLoading || error)
     return (
@@ -17,14 +13,15 @@ const Letter = () => {
 
   return (
     <div className="flex flex-wrap gap-4 justify-center">
-      {data?.map((e) => (
-        <Envelope
-          to={e.to}
-          from={e.from}
-          body={e.message}
-          fromName={e.from_name}
-        />
-      ))}
+      {data?.length &&
+        data?.map((e) => (
+          <Envelope
+            to={e.to}
+            from={e.from}
+            body={e.message}
+            fromName={e.from_name}
+          />
+        ))}
     </div>
   );
 };
