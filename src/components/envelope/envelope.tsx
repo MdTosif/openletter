@@ -6,10 +6,12 @@ export default function Envelope({
   body,
   from,
   to,
+  fromName,
 }: {
   to: string;
   from: string;
   body: string;
+  fromName: string;
 }) {
   const [isExpanded, setExpanded] = useState(false);
 
@@ -32,7 +34,17 @@ export default function Envelope({
             <p className="text-left">{body}</p>
             <p>&nbsp;</p>
             <p className="text-left">With love and admiration,</p>
-            <p className="text-left">{from}</p>
+            {from ? (
+              <p className="text-left">
+                <img
+                  className="w-44"
+                  src={`https://vauompkfayzeonicudle.supabase.co/storage/v1/object/public/signs/${from}.png`}
+                  alt={from}
+                />
+              </p>
+            ) : (
+              <p> {fromName} </p>
+            )}
           </div>
         </div>
       </div>

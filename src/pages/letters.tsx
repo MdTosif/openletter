@@ -1,59 +1,30 @@
 import { useClerk } from "@clerk/clerk-react";
-import { useState, useEffect } from "react";
 import Envelope from "../components/envelope/envelope";
+import useLetters from "../service/letters";
 
 const Letter = () => {
   const clerk = useClerk();
-  const [activeToken, setActiveToken] = useState<string | null | undefined>();
+  const { data, isLoading, error } = useLetters(
+    clerk.session?.lastActiveToken?.getRawString() as string,
+  );
 
-  useEffect(() => {
-    if (clerk.session?.lastActiveToken !== activeToken) {
-      setActiveToken(clerk.session?.lastActiveToken?.getRawString());
-      fetch("http://localhost:8080/letter", {
-        headers: {
-          Authorization: clerk.session?.lastActiveToken?.getRawString() || "",
-        },
-      });
-    }
-  }, [clerk.session?.lastActiveToken]);
+  if (isLoading || error)
+    return (
+      <div className="flex justify-between">
+        <span className="loading loading-spinner w-1/4 mx-auto"></span>
+      </div>
+    );
+
   return (
     <div className="flex flex-wrap gap-4 justify-center">
-      <Envelope
-        to="Tosif"
-        from="Sahir"
-        body="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi"
-      />
-      <Envelope
-        to="Tosif"
-        from="Sahir"
-        body="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi"
-      />
-      <Envelope
-        to="Tosif"
-        from="Sahir"
-        body="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi"
-      />
-      <Envelope
-        to="Tosif"
-        from="Sahir"
-        body="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi"
-      />
-      <Envelope
-        to="Tosif"
-        from="Sahir"
-        body="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi"
-      />
-      <Envelope
-        to="Tosif"
-        from="Sahir"
-        body="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi"
-      />
-      <Envelope
-        to="Tosif"
-        from="Sahir"
-        body="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi"
-      />
-      {/* <SignPad /> */}
+      {data?.map((e) => (
+        <Envelope
+          to={e.to}
+          from={e.from}
+          body={e.message}
+          fromName={e.from_name}
+        />
+      ))}
     </div>
   );
 };
