@@ -4,6 +4,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 const Header = () => (
   <header>
@@ -31,7 +32,7 @@ const Header = () => (
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a href="/sign">Signature</a>
+              <Link to="/sign">Signature</Link>
             </li>
             {/* <li>
               <a>Parent</a>
@@ -45,7 +46,10 @@ const Header = () => (
               </ul>
             </li> */}
             <li>
-              <a href="/">Letters</a>
+              <Link to="/">Letters</Link>
+            </li>
+            <li>
+              <Link to="/send">Send Letters</Link>
             </li>
           </ul>
         </div>
@@ -54,7 +58,7 @@ const Header = () => (
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a href="/sign">Signature</a>
+            <Link to="/sign">Signature</Link>
           </li>
           {/* <li>
             <details>
@@ -70,7 +74,10 @@ const Header = () => (
             </details>
           </li> */}
           <li>
-            <a href="/">Letters</a>
+            <Link to="/">Letters</Link>
+          </li>
+          <li>
+            <Link to="/send">Send Letters</Link>
           </li>
         </ul>
       </div>

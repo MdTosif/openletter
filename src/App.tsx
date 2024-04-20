@@ -1,26 +1,37 @@
 // import { useState } from 'react'
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Header from "./components/header";
 import Letter from "./pages/letters";
 import SignPad from "./components/sign-pad";
+import SendLetter from "./pages/send-letter";
 
-const router = createBrowserRouter([
+const router = [
   {
     path: "*",
     element: <Letter />,
   },
   {
+    path: "/send",
+    element: <SendLetter />,
+  },
+  {
     path: "/sign",
     element: <SignPad />,
   },
-]);
+];
 
 function App() {
   return (
     <>
-      <Header />
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          {router.map((e) => (
+            <Route path={e.path} element={e.element}></Route>
+          ))}
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

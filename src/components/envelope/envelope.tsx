@@ -12,6 +12,7 @@ export default function Envelope({
   body: string;
 }) {
   const [isExpanded, setExpanded] = useState(false);
+
   return (
     <div className="envelope">
       <div className="back"></div>

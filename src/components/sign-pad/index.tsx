@@ -29,32 +29,6 @@ export default function SignPad() {
     }
   }, []); // Run once on component mount
 
-  useEffect(() => {
-    const canvasEl = canvas.current;
-    if (canvasEl && clerk.user?.id) {
-      const imageUrl =
-        "https://vauompkfayzeonicudle.supabase.co/storage/v1/object/public/signs/" +
-        clerk.user?.id +
-        ".png";
-
-      fetch(imageUrl)
-        .then((response) => response.blob())
-        .then((blob) => {
-          const blobUrl = URL.createObjectURL(blob);
-
-          // Create an image element
-          const image = new Image();
-
-          // Set the source of the image to the blob URL
-          image.src = blobUrl;
-          canvasEl.getContext("2d")?.drawImage(image, 0, 0);
-        })
-        .catch((error) => {
-          console.error("Error fetching image:", error);
-        });
-    }
-  }, [clerk.user]);
-
   // Adjust canvas coordinate space taking into account pixel ratio,
   // to make it look crisp on mobile devices.
   // This also causes canvas to be cleared.
@@ -116,7 +90,11 @@ export default function SignPad() {
     <div className="container-body">
       <div id="signature-pad" className="signature-pad">
         <div className="signature-pad--body">
-          <canvas onResize={resizeCanvas} ref={canvas} className=""></canvas>
+          <canvas
+            onResize={resizeCanvas}
+            ref={canvas}
+            className="w-full h-full"
+          ></canvas>
         </div>
         <div className="signature-pad--footer">
           <div className="description">Sign above</div>
@@ -232,7 +210,7 @@ export default function SignPad() {
                       supabase.storage
                         .from("signs")
                         .upload(clerk.user?.id + ".png", blob, {
-                          cacheControl: "3600",
+                          // cacheControl: "3600",
                           upsert: true,
                           contentType: "image/png",
                         });
@@ -242,6 +220,32 @@ export default function SignPad() {
               >
                 Save
               </button>
+
+              <button
+                className="btn"
+                onClick={() => {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  const doc = document?.getElementById("my_modal_3") as any;
+                  doc.showModal();
+                }}
+              >
+                View
+              </button>
+              <dialog id="my_modal_3" className="modal">
+                <div className="modal-box bg-white">
+                  <form method="dialog" action="">
+                    {/* if there is a button in form, it will close the modal */}
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                      ✕
+                    </button>
+                  </form>
+                  <h3 className="font-bold text-lg">Your Signature</h3>
+                  <img
+                    src={`https://vauompkfayzeonicudle.supabase.co/storage/v1/object/public/signs/${clerk.user?.id}.png?date=${Date.now().toLocaleString()}`}
+                    alt="Signature"
+                  ></img>
+                </div>
+              </dialog>
             </div>
           </div>
         </div>
